@@ -753,7 +753,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
     <button class="modal-close" onclick="closeChannels()">✕</button>
     <h3 style="font-size:26px;margin-bottom:6px;">Channel Lists</h3>
     <p style="color:var(--muted);font-size:14px;margin-bottom:20px;">Organised by category — sample structure shown below.</p>
-    <div class="placeholder-note">Entertainment, Sky Sports, TNT Sports and Cinema reflect current published lineups. Kids, News and Other are placeholder categories pending confirmed channel details.</div>
+    <div class="placeholder-note">Entertainment, Sky Sports, TNT Sports and Cinema reflect current published lineups.</div>
     <div id="channelListContainer"></div>
   </div>
 </div>
@@ -1166,10 +1166,7 @@ const channelListData = {
   Cinema: {
     note: 'Includes a complimentary Paramount+ subscription and monthly cinema tickets.',
     channels: ['Sky Cinema Premiere', 'Sky Cinema Select', 'Sky Cinema Hits', 'Sky Cinema Greats', 'Sky Cinema Family', 'Sky Cinema Action', 'Sky Cinema Comedy', 'Sky Cinema Thriller', 'Sky Cinema Sci-Fi & Horror', 'Sky Cinema Drama', 'Sky Cinema Classics', 'Sky Cinema Animation']
-  },
-  Kids: ['Kids Channel 1 (placeholder)', 'Kids Channel 2 (placeholder)'],
-  News: ['News Channel 1 (placeholder)', 'News Channel 2 (placeholder)'],
-  Other: ['Other Channel 1 (placeholder)', 'Other Channel 2 (placeholder)']
+  }
 };
 
 function renderChannelList(){
