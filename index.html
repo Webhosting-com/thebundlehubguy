@@ -562,9 +562,9 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
           <p>I'm building my journey in sales with a genuine focus on great service, honest advice and putting your needs first. I'll never pressure you into something that isn't right for you — my goal is to understand what you're looking for, give you clear advice and help you find the best option for your needs.</p>
           <p>If you've got a question, need some guidance or simply want to see what's available, drop me a message — I'd be more than happy to help.</p>
         </div>
-        <button class="btn btn-primary profile-cta" onclick="quickWhatsApp()">
+        <button class="btn btn-primary profile-cta" onclick="openBasket()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.3A8.9 8.9 0 0 0 12 4a8.96 8.96 0 0 0-7.8 13.4L3 21l3.7-1.2A8.96 8.96 0 0 0 12 21a9 9 0 0 0 5.6-14.7zM12 19.3a7.3 7.3 0 0 1-3.8-1.1l-.3-.2-2.2.7.7-2.1-.2-.3A7.3 7.3 0 1 1 19.3 12 7.3 7.3 0 0 1 12 19.3z"/></svg>
-          Message Jacob on WhatsApp
+          View My Bundle
         </button>
       </div>
     </div>
@@ -722,7 +722,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
       <p>Tell me what you're looking for and I'll help you explore the options available — whether you're looking to save, get more from your package, or improve your broadband and WiFi.</p>
       <div class="cta-row">
         <button class="btn btn-primary" onclick="openBasket()">Start Building My Bundle</button>
-        <button class="btn" style="background:#25D366;color:#fff;" onclick="quickWhatsApp()">WhatsApp TheBundleHubGuy</button>
+        <button class="btn" style="background:#25D366;color:#fff;" onclick="openBasket()">View My Bundle &amp; Message Jacob</button>
       </div>
     </div>
   </div>
@@ -1300,12 +1300,6 @@ REQUIRED_FIELDS.forEach(id=>{
     }
   });
 });
-
-function quickWhatsApp(){
-  const msg = `Hi TheBundleHubGuy, I'd like some help finding the right Virgin Media bundle for me. Could you talk me through the options?`;
-  const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-}
 </script>
 
 </body>
