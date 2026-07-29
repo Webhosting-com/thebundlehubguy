@@ -343,7 +343,8 @@ nav.main-nav a:hover{opacity:1;}
   background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:18px;
 }
 .chan-cat{margin-bottom:28px;}
-.chan-cat h4{font-family:'Baloo 2';font-size:19px;margin-bottom:12px;color:var(--red);}
+.chan-cat h4{font-family:'Baloo 2';font-size:19px;margin-bottom:8px;color:var(--red);}
+.chan-note{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:12px;}
 .chan-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px;}
 .chan-list div{
   padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted);
@@ -752,7 +753,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
     <button class="modal-close" onclick="closeChannels()">✕</button>
     <h3 style="font-size:26px;margin-bottom:6px;">Channel Lists</h3>
     <p style="color:var(--muted);font-size:14px;margin-bottom:20px;">Organised by category — sample structure shown below.</p>
-    <div class="placeholder-note">These are placeholder channel names for layout purposes. Real, current channel lineups will be confirmed with your quote.</div>
+    <div class="placeholder-note">Entertainment, Sky Sports, TNT Sports and Cinema reflect current published lineups. Kids, News and Other are placeholder categories pending confirmed channel details.</div>
     <div id="channelListContainer"></div>
   </div>
 </div>
@@ -1148,10 +1149,24 @@ function closeBasket(){ document.getElementById('basketDrawer').classList.remove
 
 /* ================= CHANNEL MODAL ================= */
 // Editable channel data — update category names/channels here as real lineups are confirmed.
+// Categories can be a plain array of channel names, or an object { note, channels } to show a short note above the list.
 const channelListData = {
-  Entertainment: ['Entertainment Channel 1 (placeholder)', 'Entertainment Channel 2 (placeholder)', 'Entertainment Channel 3 (placeholder)', 'Entertainment Channel 4 (placeholder)'],
-  Sports: ['Sports Channel 1 (placeholder)', 'Sports Channel 2 (placeholder)', 'Sports Channel 3 (placeholder)', 'Sports Channel 4 (placeholder)'],
-  Cinema: ['Cinema Channel 1 (placeholder)', 'Cinema Channel 2 (placeholder)'],
+  Entertainment: {
+    note: 'Included with Sky Essential TV or Sky Ultimate TV. Also includes standard Freeview channels (BBC, ITV, Channel 4) and integration with Netflix, Disney+ (Standard with Ads) and discovery+.',
+    channels: ['Sky Atlantic', 'Sky Max', 'Sky Showcase', 'Sky Witness', 'Sky Comedy', 'Sky Crime', 'Sky Documentaries', 'Sky Nature', 'Sky History', 'Sky Sci-Fi']
+  },
+  'Sky Sports': {
+    note: 'Available as an add-on pack on top of your Sky Essential/Ultimate TV base package.',
+    channels: ['Sky Sports Main Event', 'Sky Sports Premier League', 'Sky Sports Football', 'Sky Sports Cricket', 'Sky Sports Golf', 'Sky Sports F1', 'Sky Sports Action', 'Sky Sports Arena', 'Sky Sports Racing', 'Sky Sports+', 'LFCTV', 'MUTV']
+  },
+  'TNT Sports': {
+    note: 'Can be added to your Sky TV subscription for an additional monthly fee.',
+    channels: ['TNT Sports 1', 'TNT Sports 2', 'TNT Sports 3', 'TNT Sports 4', 'TNT Sports Ultimate (4K)', 'TNT Sports Extra']
+  },
+  Cinema: {
+    note: 'Includes a complimentary Paramount+ subscription and monthly cinema tickets.',
+    channels: ['Sky Cinema Premiere', 'Sky Cinema Select', 'Sky Cinema Hits', 'Sky Cinema Greats', 'Sky Cinema Family', 'Sky Cinema Action', 'Sky Cinema Comedy', 'Sky Cinema Thriller', 'Sky Cinema Sci-Fi & Horror', 'Sky Cinema Drama', 'Sky Cinema Classics', 'Sky Cinema Animation']
+  },
   Kids: ['Kids Channel 1 (placeholder)', 'Kids Channel 2 (placeholder)'],
   News: ['News Channel 1 (placeholder)', 'News Channel 2 (placeholder)'],
   Other: ['Other Channel 1 (placeholder)', 'Other Channel 2 (placeholder)']
@@ -1159,13 +1174,19 @@ const channelListData = {
 
 function renderChannelList(){
   const container = document.getElementById('channelListContainer');
-  container.innerHTML = Object.entries(channelListData).map(([category, channels])=>`
+  container.innerHTML = Object.entries(channelListData).map(([category, data])=>{
+    const isObj = !Array.isArray(data);
+    const channels = isObj ? data.channels : data;
+    const noteHtml = isObj && data.note ? `<div class="chan-note">${data.note}</div>` : '';
+    return `
     <div class="chan-cat">
       <h4>${category}</h4>
+      ${noteHtml}
       <div class="chan-list">
         ${channels.map(c=>`<div>${c}</div>`).join('')}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 renderChannelList();
 
