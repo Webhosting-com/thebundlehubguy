@@ -238,6 +238,52 @@ nav.main-nav a:hover{opacity:1;}
 .step-chip.active .num{background:var(--ink);color:#fff;}
 
 .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;}
+
+/* ===== MOBILE PICKER (dropdown / checklist alternative to cards on small screens) ===== */
+.mobile-only-picker{display:none;}
+.mobile-select-wrap{position:relative;}
+.mobile-select-wrap::after{
+  content:'';position:absolute;right:20px;top:50%;transform:translateY(-65%) rotate(45deg);
+  width:9px;height:9px;border-right:2px solid var(--muted-2);border-bottom:2px solid var(--muted-2);
+  pointer-events:none;
+}
+.mobile-select{
+  width:100%;padding:18px 44px 18px 18px;border-radius:16px;border:1.5px solid var(--line);
+  background:#fff;font-size:16px;font-family:'Inter',sans-serif;font-weight:700;color:var(--ink);
+  appearance:none;-webkit-appearance:none;-moz-appearance:none;
+}
+.mobile-select:focus{outline:none;border-color:var(--red);}
+.mobile-multiselect-toggle:focus{outline:none;border-color:var(--line);box-shadow:0 0 0 3px rgba(23,26,31,0.06);}
+.mobile-multiselect-toggle.open{border-color:var(--ink);}
+.mobile-select-note{margin-top:10px;font-size:13px;color:var(--muted);}
+.mobile-check-row{
+  display:flex;align-items:flex-start;gap:14px;background:#fff;border:1.5px solid var(--line);
+  border-radius:16px;padding:16px 18px;margin-bottom:12px;cursor:pointer;
+}
+.mobile-check-row input[type="checkbox"]{
+  width:22px;height:22px;flex-shrink:0;margin-top:2px;accent-color:var(--red);
+}
+.mobile-check-row .mcr-text h5{font-family:'Baloo 2';font-size:15.5px;margin-bottom:3px;}
+.mobile-check-row .mcr-text p{font-size:13px;color:var(--muted);line-height:1.5;}
+.mobile-check-row.link-row{align-items:center;color:var(--ink);font-weight:700;justify-content:space-between;}
+
+.mobile-multiselect{position:relative;}
+.mobile-multiselect-toggle{
+  width:100%;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+}
+.mobile-multiselect-toggle .chev{
+  width:9px;height:9px;border-right:2px solid var(--muted-2);border-bottom:2px solid var(--muted-2);
+  transform:rotate(45deg);transition:transform .2s ease;flex-shrink:0;
+}
+.mobile-multiselect-toggle.open .chev{transform:rotate(-135deg);}
+.mobile-multiselect-panel{
+  display:none;margin-top:10px;
+}
+.mobile-multiselect-panel.open{display:block;}
+@media (max-width:760px){
+  .card-grid, .extras-grid, .stream-grid{display:none !important;}
+  .mobile-only-picker{display:block;}
+}
 .opt-card{
   background:#fff;border-radius:var(--radius-md);border:1.5px solid var(--line);
   padding:26px;display:flex;flex-direction:column;gap:14px;
@@ -661,6 +707,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
       <p class="sub">Choose the speed that suits your home. <strong style="color:var(--red);">Required — please select one to continue.</strong></p>
     </div>
     <div class="card-grid" id="broadbandGrid"></div>
+    <div class="mobile-only-picker" id="broadbandMobilePicker"></div>
   </div>
 </section>
 
@@ -673,6 +720,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
       <p class="sub">If you've got dead spots or a bigger home to cover, ask about the WiFi options available for your address.</p>
     </div>
     <div class="card-grid" id="wifiGrid"></div>
+    <div class="mobile-only-picker" id="wifiMobilePicker"></div>
   </div>
 </section>
 
@@ -685,6 +733,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
       <p class="sub">Add the entertainment you actually want.</p>
     </div>
     <div class="card-grid" id="tvGrid"></div>
+    <div class="mobile-only-picker" id="tvMobilePicker"></div>
     <button class="view-channels-btn" onclick="openChannels()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
       View Channel Lists
@@ -714,6 +763,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
       <p class="sub">Take your entertainment further with popular streaming subscriptions and extras.</p>
     </div>
     <div class="stream-grid" id="streamGrid"></div>
+    <div class="mobile-only-picker" id="streamMobilePicker"></div>
   </div>
 </section>
 
@@ -726,6 +776,7 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
       <p class="sub">A few finishing touches — select anything you'd like me to quote on.</p>
     </div>
     <div class="extras-grid" id="extrasGrid"></div>
+    <div class="mobile-only-picker" id="extrasMobilePicker"></div>
   </div>
 </section>
 
@@ -742,6 +793,8 @@ footer .tagline{color:var(--muted);font-size:14px;margin-top:8px;}
       </div>
     </div>
     <div class="card-grid" id="simGrid"></div>
+    <div class="mobile-only-picker" id="simMobilePicker"></div>
+    <p style="font-size:12.5px;color:var(--muted-2);margin-top:14px;">*Ultimate plan availability and pricing subject to eligibility — ask for current details.</p>
 
     <div class="perk-strip">
       <img src="data:image/png;base64,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" alt="O2" class="perk-strip-o2">
@@ -922,11 +975,10 @@ const extrasOptions = [
 
 const simOptions = [
   { id:'sim-4gb', name:'4GB', speed:'4', unit:'GB', desc:'Unlimited calls and texts, plus 4GB of data for everyday browsing on the go.' },
-  { id:'sim-6gb', name:'6GB', speed:'6', unit:'GB', desc:'Unlimited calls and texts, plus 6GB of data for social media, maps and music streaming.' },
-  { id:'sim-10gb', name:'10GB', speed:'10', unit:'GB', desc:'Unlimited calls and texts, plus 10GB of data for regular streaming and browsing.' },
-  { id:'sim-15gb', name:'15GB', speed:'15', unit:'GB', desc:'Unlimited calls and texts, plus 15GB of data for heavier data users on the move.' },
+  { id:'sim-5gbplus', name:'5GB+', speed:'5', unit:'GB+', desc:'Unlimited calls and texts, plus 5GB or more of data for social media, maps and streaming.' },
+  { id:'sim-15gbplus', name:'15GB+', speed:'15', unit:'GB+', desc:'Unlimited calls and texts, plus 15GB or more of data for heavier data users on the move.' },
   { id:'sim-unlimited', name:'Unlimited', speed:'∞', unit:'Data', desc:'Unlimited calls, texts and data — never think about your allowance again.' },
-  { id:'sim-ultimate', name:'Ultimate SIM', speed:'★', unit:'Plan', desc:'Unlimited calls, texts and data, plus the full O2 experience. Ask for current details.' }
+  { id:'sim-ultimate', name:'Ultimate*', speed:'★', unit:'Plan', desc:'Unlimited calls, texts and data, plus the full O2 experience. Ask for current details.' }
 ];
 
 // Kept for backwards compatibility with the render helpers below
@@ -1044,6 +1096,129 @@ document.getElementById('extrasGrid').innerHTML = extrasOptions.map(opt=>{
     <div><h5>${opt.name}</h5><p>${opt.desc}</p></div>
   </div>`;
 }).join('');
+
+/* ============================================================
+   MOBILE PICKERS — dropdown for single-select, checklist for
+   multi-select categories. These mirror the desktop cards and
+   stay in sync with the same `selections` state, so switching
+   between screen sizes never loses a choice.
+   ============================================================ */
+
+/* Single-select categories -> native <select> dropdown */
+function renderMobileSelect(containerId, cat, options, placeholder){
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div class="mobile-select-wrap">
+      <select class="mobile-select" id="${containerId}Select" onchange="selectSingleMobile('${cat}', this.value)">
+        <option value="">${placeholder}</option>
+        ${options.map(o=>`<option value="${o.id}">${o.name}</option>`).join('')}
+      </select>
+    </div>`;
+}
+
+function selectSingleMobile(cat, id){
+  // clear any previous selection's visual state on the desktop cards
+  bundleOptions[cat].forEach(o=>{
+    const c = document.getElementById('card-'+o.id);
+    if(c){ c.classList.remove('selected'); const b=c.querySelector('.add-btn'); if(b) b.textContent='Add to Bundle'; }
+  });
+  selections[cat] = id || null;
+  if(id){
+    const c = document.getElementById('card-'+id);
+    if(c){ c.classList.add('selected'); const b=c.querySelector('.add-btn'); if(b) b.textContent='Selected ✓'; }
+  }
+  updateBasketUI();
+}
+
+/* Multi-select categories -> collapsed dropdown that expands into a checklist
+   (used for WiFi and Streaming, so they look/behave like the single-select
+   dropdowns while still allowing more than one item to be chosen) */
+function renderMobileMultiselect(containerId, cat, options, placeholder){
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div class="mobile-multiselect">
+      <button type="button" class="mobile-select mobile-multiselect-toggle" id="${containerId}Toggle" onclick="toggleMultiselectPanel('${containerId}')">
+        <span id="${containerId}ToggleLabel">${placeholder}</span>
+        <span class="chev"></span>
+      </button>
+      <div class="mobile-multiselect-panel" id="${containerId}Panel">
+        ${options.map(opt=>`
+          <label class="mobile-check-row">
+            <input type="checkbox" onchange="toggleMobileCheckbox('${cat}','${opt.id}')">
+            <div class="mcr-text"><h5>${opt.name}</h5><p>${opt.desc}</p></div>
+          </label>`).join('')}
+      </div>
+    </div>`;
+}
+
+function toggleMultiselectPanel(containerId){
+  document.getElementById(containerId+'Panel').classList.toggle('open');
+  document.getElementById(containerId+'Toggle').classList.toggle('open');
+}
+
+function toggleMobileCheckbox(cat, id){
+  const arr = selections[cat];
+  const idx = arr.indexOf(id);
+  const card = document.getElementById('card-'+id);
+  if(idx > -1){
+    arr.splice(idx,1);
+    if(card){ card.classList.remove('selected'); const b=card.querySelector('.add-btn')||card; if(b && b.tagName==='BUTTON') b.textContent='Add to Bundle'; }
+  } else {
+    arr.push(id);
+    if(card){ card.classList.add('selected'); }
+  }
+  updateBasketUI();
+}
+
+/* Keep both UI modes visually in sync no matter which one was used last */
+function syncMobilePickers(){
+  const bbSel = document.getElementById('broadbandMobilePickerSelect');
+  if(bbSel) bbSel.value = selections.broadband || '';
+  const tvSel = document.getElementById('tvMobilePickerSelect');
+  if(tvSel) tvSel.value = selections.tv || '';
+  const simSel = document.getElementById('simMobilePickerSelect');
+  if(simSel) simSel.value = selections.sim || '';
+
+  document.querySelectorAll('#wifiMobilePicker input[type="checkbox"]').forEach((cb,i)=>{
+    cb.checked = selections.wifi.includes(wifiOptions[i].id);
+  });
+  document.querySelectorAll('#extrasMobilePicker input[type="checkbox"]').forEach((cb,i)=>{
+    cb.checked = selections.extras.includes(extrasOptions[i].id);
+  });
+  document.querySelectorAll('#streamMobilePicker input[type="checkbox"]').forEach((cb,i)=>{
+    cb.checked = selections.streaming.includes(streamingOptions[i].id);
+  });
+
+  const wifiLabel = document.getElementById('wifiMobilePickerToggleLabel');
+  if(wifiLabel){
+    wifiLabel.textContent = selections.wifi.length
+      ? `${selections.wifi.length} WiFi option${selections.wifi.length>1?'s':''} selected`
+      : 'Choose WiFi options…';
+  }
+  const streamLabel = document.getElementById('streamMobilePickerToggleLabel');
+  if(streamLabel){
+    streamLabel.textContent = selections.streaming.length
+      ? `${selections.streaming.length} streaming service${selections.streaming.length>1?'s':''} selected`
+      : 'Choose streaming services…';
+  }
+  const extrasLabel = document.getElementById('extrasMobilePickerToggleLabel');
+  if(extrasLabel){
+    extrasLabel.textContent = selections.extras.length
+      ? `${selections.extras.length} extra${selections.extras.length>1?'s':''} selected`
+      : 'Choose additional TV & extras…';
+  }
+}
+
+renderMobileSelect('broadbandMobilePicker', 'broadband', broadbandOptions, 'Choose your broadband speed…');
+renderMobileSelect('tvMobilePicker', 'tv', tvOptions, 'Choose your TV package…');
+renderMobileSelect('simMobilePicker', 'sim', simOptions, 'Choose your SIM plan…');
+renderMobileMultiselect('wifiMobilePicker', 'wifi', wifiOptions, 'Choose WiFi options…');
+document.getElementById('wifiMobilePicker').insertAdjacentHTML('beforeend', `
+  <a href="${SPEED_TEST_URL}" target="_blank" class="mobile-check-row link-row" style="margin-top:12px;">
+    Run a Speed Test <span>→</span>
+  </a>`);
+renderMobileMultiselect('extrasMobilePicker', 'extras', extrasOptions, 'Choose additional TV & extras…');
+renderMobileMultiselect('streamMobilePicker', 'streaming', streamingOptions, 'Choose streaming services…');
 
 /* Logo asset lookup - maps data keys to embedded base64 image sources */
 
@@ -1167,6 +1342,7 @@ function updateBasketUI(){
   const bar = document.getElementById('mobileBar');
   fab.classList.toggle('hide', n === 0);
   bar.classList.toggle('active', n > 0);
+  syncMobilePickers();
 
   if(selections.broadband){
     const errorBox = document.getElementById('formError');
